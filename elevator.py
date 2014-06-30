@@ -20,8 +20,8 @@ class Elevator(object):
     self.landings = landings
     self.position = 1
     self.heading = "stopped"
-    self.hall_tasks = {"up": [], "down": [], "stopped": []}
-    self.car_tasks = []
+    self.hall_tasks = {"up": set(), "down": set(), "stopped": set()}
+    self.car_tasks = set()
 
   # Called when an elevator arrives at a floor, or passes through a floor.
   # This method should return true if the elevator should stop and open its
@@ -29,7 +29,12 @@ class Elevator(object):
 
   def arrive(self, landing):
     self.position = landing
-    
+
+    # if sum([len(x) for x in self.hall_tasks.values()]) + len(car_tasks) == 0:
+    #   self.heading = "stopped"
+    # elif len(car_tasks) != 0:
+    #   if self.position > car_tasks
+
     if self.position == 1:
       self.heading = "up"
     elif self.position == self.landings:
@@ -50,7 +55,7 @@ class Elevator(object):
   # "up". The return value is ignored.
 
   def hall_call(self, landing, direction):
-    self.hall_tasks[direction].append(landing)
+    self.hall_tasks[direction].add(landing)
     print "HALL CALL: ", self.hall_tasks
     pass
 
@@ -59,7 +64,7 @@ class Elevator(object):
   # someone calls the floor they are currently on.
 
   def car_call(self, landing):
-    self.car_tasks.append(landing)
+    self.car_tasks.add(landing)
     print "CAR CALL"
     pass
 
